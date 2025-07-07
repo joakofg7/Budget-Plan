@@ -26,7 +26,7 @@ const RecurringTransactions = ({ recurringTransactions, onAdd, onUpdate, onDelet
     frequency: "monthly"
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!formData.category || !formData.amount || !formData.description) {
@@ -38,34 +38,42 @@ const RecurringTransactions = ({ recurringTransactions, onAdd, onUpdate, onDelet
       return;
     }
 
-    const transactionData = {
-      ...formData,
-      amount: parseFloat(formData.amount)
-    };
+    try {
+      const transactionData = {
+        ...formData,
+        amount: parseFloat(formData.amount)
+      };
 
-    if (editingTransaction) {
-      onUpdate(editingTransaction.id, transactionData);
-      toast({
-        title: "Recurring transaction updated",
-        description: "Your recurring transaction has been updated successfully.",
+      if (editingTransaction) {
+        await onUpdate(editingTransaction.id, transactionData);
+        toast({
+          title: "Recurring transaction updated",
+          description: "Your recurring transaction has been updated successfully.",
+        });
+        setEditingTransaction(null);
+      } else {
+        await onAdd(transactionData);
+        toast({
+          title: "Recurring transaction added",
+          description: "Your recurring transaction has been added successfully.",
+        });
+      }
+      
+      setFormData({
+        type: "expense",
+        category: "",
+        amount: "",
+        description: "",
+        frequency: "monthly"
       });
-      setEditingTransaction(null);
-    } else {
-      onAdd(transactionData);
+      setIsDialogOpen(false);
+    } catch (error) {
       toast({
-        title: "Recurring transaction added",
-        description: "Your recurring transaction has been added successfully.",
+        title: "Error",
+        description: "Failed to save recurring transaction. Please try again.",
+        variant: "destructive",
       });
     }
-    
-    setFormData({
-      type: "expense",
-      category: "",
-      amount: "",
-      description: "",
-      frequency: "monthly"
-    });
-    setIsDialogOpen(false);
   };
 
   const handleEdit = (transaction) => {
