@@ -33,7 +33,7 @@ const TransactionForm = ({ transactions, onSubmit, onCancel, isEditing = false }
     }
   }, [isEditing, id, transactions]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!formData.category || !formData.amount || !formData.description) {
@@ -45,26 +45,34 @@ const TransactionForm = ({ transactions, onSubmit, onCancel, isEditing = false }
       return;
     }
 
-    const transactionData = {
-      ...formData,
-      amount: parseFloat(formData.amount)
-    };
+    try {
+      const transactionData = {
+        ...formData,
+        amount: parseFloat(formData.amount)
+      };
 
-    if (isEditing) {
-      onSubmit(id, transactionData);
+      if (isEditing) {
+        await onSubmit(id, transactionData);
+        toast({
+          title: "Transaction updated",
+          description: "Your transaction has been updated successfully.",
+        });
+      } else {
+        await onSubmit(transactionData);
+        toast({
+          title: "Transaction added",
+          description: "Your transaction has been added successfully.",
+        });
+      }
+      
+      navigate("/");
+    } catch (error) {
       toast({
-        title: "Transaction updated",
-        description: "Your transaction has been updated successfully.",
-      });
-    } else {
-      onSubmit(transactionData);
-      toast({
-        title: "Transaction added",
-        description: "Your transaction has been added successfully.",
+        title: "Error",
+        description: "Failed to save transaction. Please try again.",
+        variant: "destructive",
       });
     }
-    
-    navigate("/");
   };
 
   const handleInputChange = (field, value) => {
