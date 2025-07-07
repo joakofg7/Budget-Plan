@@ -88,12 +88,20 @@ const RecurringTransactions = ({ recurringTransactions, onAdd, onUpdate, onDelet
     setIsDialogOpen(true);
   };
 
-  const handleDelete = (id) => {
-    onDelete(id);
-    toast({
-      title: "Recurring transaction deleted",
-      description: "The recurring transaction has been removed successfully.",
-    });
+  const handleDelete = async (id) => {
+    try {
+      await onDelete(id);
+      toast({
+        title: "Recurring transaction deleted",
+        description: "The recurring transaction has been removed successfully.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete recurring transaction. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleInputChange = (field, value) => {
