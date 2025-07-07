@@ -61,12 +61,20 @@ const Dashboard = ({ transactions, recurringTransactions, onUpdateTransaction, o
     return breakdown;
   }, [filteredTransactions]);
 
-  const handleDelete = (id) => {
-    onDeleteTransaction(id);
-    toast({
-      title: "Transaction deleted",
-      description: "The transaction has been removed successfully.",
-    });
+  const handleDelete = async (id) => {
+    try {
+      await onDeleteTransaction(id);
+      toast({
+        title: "Transaction deleted",
+        description: "The transaction has been removed successfully.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete transaction. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const formatCurrency = (amount) => {
