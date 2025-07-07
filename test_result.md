@@ -137,15 +137,18 @@ backend:
 
   - task: "Analytics API"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Implemented analytics endpoints: /api/analytics/summary and /api/analytics/categories for dashboard data"
+      - working: true
+        agent: "testing"
+        comment: "Analytics API is working correctly. The summary endpoint correctly calculates income, expenses, and balance. The categories endpoint correctly breaks down transactions by category with proper income and expense amounts."
 
   - task: "MongoDB Integration"
     implemented: true
