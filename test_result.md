@@ -222,10 +222,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Transaction CRUD API"
-    - "Recurring Transaction CRUD API"
     - "Backend API Integration"
-    - "MongoDB Integration"
   stuck_tasks: []
   test_all: true
   test_priority: "high_first"
