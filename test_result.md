@@ -122,15 +122,18 @@ backend:
 
   - task: "Recurring Transaction CRUD API"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Implemented full CRUD endpoints for recurring transactions: GET, POST, PUT, DELETE /api/recurring with automatic next date calculation"
+      - working: true
+        agent: "testing"
+        comment: "All Recurring Transaction CRUD operations working correctly. Successfully tested create, read, update, and delete operations. Next date calculation for different frequencies (weekly, monthly, yearly) is working as expected."
 
   - task: "Analytics API"
     implemented: true
