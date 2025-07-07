@@ -4,82 +4,120 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import TransactionForm from "./components/TransactionForm";
 import RecurringTransactions from "./components/RecurringTransactions";
-import { mockTransactions, mockRecurringTransactions } from "./data/mock";
 import { Toaster } from "./components/ui/toaster";
+import axios from "axios";
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 function App() {
   const [transactions, setTransactions] = useState([]);
   const [recurringTransactions, setRecurringTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch transactions from backend
+  const fetchTransactions = async () => {
+    try {
+      const response = await axios.get(`${API}/transactions`);
+      setTransactions(response.data);
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+    }
+  };
+
+  // Fetch recurring transactions from backend
+  const fetchRecurringTransactions = async () => {
+    try {
+      const response = await axios.get(`${API}/recurring`);
+      setRecurringTransactions(response.data);
+    } catch (error) {
+      console.error("Error fetching recurring transactions:", error);
+    }
+  };
 
   useEffect(() => {
-    // Load mock data on startup
-    const savedTransactions = localStorage.getItem('budgetTransactions');
-    const savedRecurring = localStorage.getItem('budgetRecurring');
-    
-    if (savedTransactions) {
-      setTransactions(JSON.parse(savedTransactions));
-    } else {
-      setTransactions(mockTransactions);
-      localStorage.setItem('budgetTransactions', JSON.stringify(mockTransactions));
-    }
-    
-    if (savedRecurring) {
-      setRecurringTransactions(JSON.parse(savedRecurring));
-    } else {
-      setRecurringTransactions(mockRecurringTransactions);
-      localStorage.setItem('budgetRecurring', JSON.stringify(mockRecurringTransactions));
-    }
+    const loadData = async () => {
+      setLoading(true);
+      await Promise.all([fetchTransactions(), fetchRecurringTransactions()]);
+      setLoading(false);
+    };
+    loadData();
   }, []);
 
-  const addTransaction = (transaction) => {
-    const newTransaction = {
-      ...transaction,
-      id: Date.now().toString(),
-      date: new Date().toISOString().split('T')[0]
-    };
-    const updatedTransactions = [...transactions, newTransaction];
-    setTransactions(updatedTransactions);
-    localStorage.setItem('budgetTransactions', JSON.stringify(updatedTransactions));
+  const addTransaction = async (transaction) => {
+    try {
+      const response = await axios.post(`${API}/transactions`, transaction);
+      setTransactions(prev => [...prev, response.data]);
+      return response.data;
+    } catch (error) {
+      console.error("Error adding transaction:", error);
+      throw error;
+    }
   };
 
-  const updateTransaction = (id, updatedTransaction) => {
-    const updatedTransactions = transactions.map(t => 
-      t.id === id ? { ...updatedTransaction, id } : t
+  const updateTransaction = async (id, updatedTransaction) => {
+    try {
+      const response = await axios.put(`${API}/transactions/${id}`, updatedTransaction);
+      setTransactions(prev => prev.map(t => t.id === id ? response.data : t));
+      return response.data;
+    } catch (error) {
+      console.error("Error updating transaction:", error);
+      throw error;
+    }
+  };
+
+  const deleteTransaction = async (id) => {
+    try {
+      await axios.delete(`${API}/transactions/${id}`);
+      setTransactions(prev => prev.filter(t => t.id !== id));
+    } catch (error) {
+      console.error("Error deleting transaction:", error);
+      throw error;
+    }
+  };
+
+  const addRecurringTransaction = async (recurringTransaction) => {
+    try {
+      const response = await axios.post(`${API}/recurring`, recurringTransaction);
+      setRecurringTransactions(prev => [...prev, response.data]);
+      return response.data;
+    } catch (error) {
+      console.error("Error adding recurring transaction:", error);
+      throw error;
+    }
+  };
+
+  const updateRecurringTransaction = async (id, updatedRecurring) => {
+    try {
+      const response = await axios.put(`${API}/recurring/${id}`, updatedRecurring);
+      setRecurringTransactions(prev => prev.map(r => r.id === id ? response.data : r));
+      return response.data;
+    } catch (error) {
+      console.error("Error updating recurring transaction:", error);
+      throw error;
+    }
+  };
+
+  const deleteRecurringTransaction = async (id) => {
+    try {
+      await axios.delete(`${API}/recurring/${id}`);
+      setRecurringTransactions(prev => prev.filter(r => r.id !== id));
+    } catch (error) {
+      console.error("Error deleting recurring transaction:", error);
+      throw error;
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="App min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-500 mx-auto mb-4"></div>
+          <p className="text-gray-600 text-lg">Loading your budget data...</p>
+        </div>
+      </div>
     );
-    setTransactions(updatedTransactions);
-    localStorage.setItem('budgetTransactions', JSON.stringify(updatedTransactions));
-  };
-
-  const deleteTransaction = (id) => {
-    const updatedTransactions = transactions.filter(t => t.id !== id);
-    setTransactions(updatedTransactions);
-    localStorage.setItem('budgetTransactions', JSON.stringify(updatedTransactions));
-  };
-
-  const addRecurringTransaction = (recurringTransaction) => {
-    const newRecurring = {
-      ...recurringTransaction,
-      id: Date.now().toString(),
-      nextDate: new Date().toISOString().split('T')[0]
-    };
-    const updatedRecurring = [...recurringTransactions, newRecurring];
-    setRecurringTransactions(updatedRecurring);
-    localStorage.setItem('budgetRecurring', JSON.stringify(updatedRecurring));
-  };
-
-  const updateRecurringTransaction = (id, updatedRecurring) => {
-    const updatedRecurringTransactions = recurringTransactions.map(r => 
-      r.id === id ? { ...updatedRecurring, id } : r
-    );
-    setRecurringTransactions(updatedRecurringTransactions);
-    localStorage.setItem('budgetRecurring', JSON.stringify(updatedRecurringTransactions));
-  };
-
-  const deleteRecurringTransaction = (id) => {
-    const updatedRecurring = recurringTransactions.filter(r => r.id !== id);
-    setRecurringTransactions(updatedRecurring);
-    localStorage.setItem('budgetRecurring', JSON.stringify(updatedRecurring));
-  };
+  }
 
   return (
     <div className="App min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50">
