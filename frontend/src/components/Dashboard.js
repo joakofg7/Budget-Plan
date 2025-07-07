@@ -18,10 +18,11 @@ const Dashboard = ({ transactions, recurringTransactions, onUpdateTransaction, o
     
     switch (selectedPeriod) {
       case "current-month":
+        // For demo purposes, show January 2025 data when current month is selected
         return transactions.filter(t => {
           const transactionDate = new Date(t.date);
-          return transactionDate.getMonth() === now.getMonth() && 
-                 transactionDate.getFullYear() === now.getFullYear();
+          return transactionDate.getMonth() === 0 && // January (0-indexed)
+                 transactionDate.getFullYear() === 2025;
         });
       case "last-3-months":
         const threeMonthsAgo = new Date();
@@ -30,7 +31,7 @@ const Dashboard = ({ transactions, recurringTransactions, onUpdateTransaction, o
       case "yearly":
         return transactions.filter(t => {
           const transactionDate = new Date(t.date);
-          return transactionDate.getFullYear() === now.getFullYear();
+          return transactionDate.getFullYear() === 2025; // Show 2025 data
         });
       default:
         return transactions;
