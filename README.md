@@ -4,6 +4,30 @@ A beautiful, modern budget tracking application that helps you manage your incom
 
 ![Budget Planner Dashboard](https://img.shields.io/badge/Status-Active-green) ![React](https://img.shields.io/badge/React-18+-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-Latest-green) ![MongoDB](https://img.shields.io/badge/MongoDB-Latest-green)
 
+## 🚀 Live Demo
+
+**[🎯 Try the Live Demo](https://yourusername.github.io/budget-planner)** - Experience the full app functionality with mock data!
+
+> **Note**: The live demo uses mock data and local storage. For the full backend-integrated version, clone and run the repository locally.
+
+## 📸 Screenshots
+
+### 🏠 Dashboard Overview
+![Dashboard](https://user-images.githubusercontent.com/placeholder/dashboard_main.png)
+*Clean, intuitive dashboard with financial summaries, time filters, and visual charts*
+
+### 📝 Transaction Management  
+![Add Transaction](https://user-images.githubusercontent.com/placeholder/add_transaction_filled.png)
+*Easy-to-use forms for adding income and expenses with category selection*
+
+### 🔄 Recurring Transactions
+![Recurring Transactions](https://user-images.githubusercontent.com/placeholder/recurring_page.png)
+*Manage recurring income and expenses with automatic scheduling*
+
+### 📊 Analytics & Charts
+![Charts View](https://user-images.githubusercontent.com/placeholder/charts_view.png)
+*Comprehensive charts showing spending patterns and financial trends*
+
 ## ✨ Features
 
 ### 📊 **Dashboard & Analytics**
