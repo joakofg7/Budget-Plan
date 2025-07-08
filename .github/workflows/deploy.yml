@@ -1,0 +1,45 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'yarn'
+
+    - name: Install dependencies
+      run: |
+        cd frontend
+        yarn install
+
+    - name: Setup demo version
+      run: |
+        cd frontend
+        # Copy demo version over main App.js for GitHub Pages build
+        cp src/App.demo.js src/App.js
+
+    - name: Build
+      run: |
+        cd frontend
+        yarn build
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/main'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./frontend/build
+        cname: your-custom-domain.com  # Optional: replace with your domain or remove this line
