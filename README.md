@@ -13,20 +13,22 @@ A beautiful, modern budget tracking application that helps you manage your incom
 ## 📸 Screenshots
 
 ### 🏠 Dashboard Overview
-![Dashboard](https://user-images.githubusercontent.com/placeholder/dashboard_main.png)
+![Dashboard](./docs/screenshots/dashboard_main.png)
 *Clean, intuitive dashboard with financial summaries, time filters, and visual charts*
 
 ### 📝 Transaction Management  
-![Add Transaction](https://user-images.githubusercontent.com/placeholder/add_transaction_filled.png)
+![Add Transaction](./docs/screenshots/add_transaction_filled.png)
 *Easy-to-use forms for adding income and expenses with category selection*
 
 ### 🔄 Recurring Transactions
-![Recurring Transactions](https://user-images.githubusercontent.com/placeholder/recurring_page.png)
+![Recurring Transactions](./docs/screenshots/recurring_page.png)
 *Manage recurring income and expenses with automatic scheduling*
 
 ### 📊 Analytics & Charts
-![Charts View](https://user-images.githubusercontent.com/placeholder/charts_view.png)
+![Charts View](./docs/screenshots/charts_view.png)
 *Comprehensive charts showing spending patterns and financial trends*
+
+> **Note**: Screenshots show the app with sample data. The live demo and full app provide the same beautiful interface with your actual financial data.
 
 ## ✨ Features
 
