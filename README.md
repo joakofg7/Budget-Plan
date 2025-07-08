@@ -220,6 +220,20 @@ budget-planner/
 
 ## 🚀 Deployment
 
+### GitHub Pages Demo Setup
+
+1. **Fork/Clone this repository**
+2. **Enable GitHub Pages**:
+   - Go to repository Settings → Pages
+   - Select "GitHub Actions" as source
+3. **Update the homepage URL** in `package.demo.json`:
+   ```json
+   "homepage": "https://yourusername.github.io/budget-planner"
+   ```
+4. **Push to main branch** - GitHub Actions will automatically deploy the demo
+
+### Local Development
+
 ### Environment Variables
 ```bash
 # Frontend (.env)
@@ -233,9 +247,19 @@ DB_NAME=budget_planner
 ### Production Deployment
 1. Build the frontend: `yarn build`
 2. Configure production environment variables
-3. Deploy backend to your preferred platform
+3. Deploy backend to your preferred platform (Heroku, Vercel, etc.)
 4. Serve frontend static files
 5. Configure reverse proxy (nginx recommended)
+
+### Demo vs Full Version
+
+| Feature | GitHub Pages Demo | Full Version |
+|---------|------------------|--------------|
+| **Frontend** | ✅ Complete UI | ✅ Complete UI |
+| **Data Storage** | 📱 Local Storage | 🗄️ MongoDB Database |
+| **Backend API** | ❌ Mock Data | ✅ FastAPI Server |
+| **Real-time Sync** | ❌ Browser Only | ✅ Cross-device |
+| **Scalability** | ❌ Limited | ✅ Production Ready |
 
 ## 🤝 Contributing
 
