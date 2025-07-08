@@ -218,21 +218,52 @@ budget-planner/
 - `GET /api/analytics/categories` - Get category breakdown
 - `GET /api/analytics/trends` - Get trend data
 
-## 🚀 Deployment
+## 🎯 Quick Demo Setup
 
-### GitHub Pages Demo Setup
+Want to deploy your own demo? It's super easy!
 
-1. **Fork/Clone this repository**
-2. **Enable GitHub Pages**:
-   - Go to repository Settings → Pages
-   - Select "GitHub Actions" as source
-3. **Update the homepage URL** in `package.demo.json`:
-   ```json
-   "homepage": "https://yourusername.github.io/budget-planner"
-   ```
-4. **Push to main branch** - GitHub Actions will automatically deploy the demo
+### Option 1: Automatic Setup (Recommended)
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/budget-planner.git
+cd budget-planner
 
-### Local Development
+# Run the setup script
+./setup-demo.sh
+
+# Follow the instructions to deploy to GitHub Pages
+```
+
+### Option 2: Manual Setup
+```bash
+# Navigate to frontend
+cd frontend
+
+# Install dependencies
+yarn install
+
+# Copy demo version
+cp src/App.demo.js src/App.js
+
+# Update package.json homepage (replace with your GitHub username/repo)
+# "homepage": "https://yourusername.github.io/budget-planner"
+
+# Build for deployment
+yarn build
+```
+
+### GitHub Pages Deployment
+1. **Push to GitHub**: Upload your repository to GitHub
+2. **Enable Pages**: Go to Settings → Pages → Source: "GitHub Actions"
+3. **Automatic Deploy**: Push to main branch triggers automatic deployment
+4. **Access Demo**: Visit `https://yourusername.github.io/budget-planner`
+
+The demo includes:
+- ✅ Full UI functionality with mock data
+- ✅ Local storage persistence
+- ✅ All interactive features
+- ✅ Responsive design
+- ✅ Demo banner explaining the preview nature
 
 ### Environment Variables
 ```bash
